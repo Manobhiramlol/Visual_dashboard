@@ -1,0 +1,29 @@
+fetch('/filtered-data')  // Update this line to use '/filtered-data'
+    .then(response => response.json())
+    .then(data => {
+        console.log("Fetched data:", data); // Debugging
+        
+        if (data.length === 0) {
+            alert("No data received from API!");
+            return;
+        }
+
+        let years = data.map(item => item.year);
+        let intensities = data.map(item => item.intensity);
+
+        let ctx = document.getElementById('myChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: years,
+                datasets: [{
+                    label: 'Intensity',
+                    data: intensities,
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            }
+        });
+    })
+    .catch(error => console.error("Error fetching data:", error));
